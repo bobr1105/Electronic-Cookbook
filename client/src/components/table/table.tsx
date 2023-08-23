@@ -23,14 +23,8 @@ import {
   MouseEvent,
   ChangeEvent,
   useMemo,
-  useEffect,
   useState,
-  useContext,
-  useCallback,
 } from "react";
-import { HttpClientContext } from "../../client";
-import { AxiosError } from "axios";
-import { Recipe } from "../backendTypes";
 import { useRecipes } from "../../hooks";
 
 interface Data {

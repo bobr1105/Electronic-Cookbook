@@ -10,7 +10,7 @@ export function useRecipes() {
 
   const loadRecipes = useCallback(() => {
     client
-      ?.get<Recipe[]>(`http://localhost:5000/recipes`)
+      ?.get<Recipe[]>(`recipes`)
       .then((res) => {
         console.log("DATA FROM HERE IS", res.data);
         setRecipes(res.data);

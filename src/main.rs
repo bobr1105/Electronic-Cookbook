@@ -2,12 +2,13 @@ pub use std::sync::Arc;
 
 use axum::{
     extract::{Path, State},
-    http::StatusCode,
+    http::{Method, StatusCode},
     response::{IntoResponse, Response},
     routing::{delete, get, post},
     Json, Router,
 };
 use axum_macros::debug_handler;
+use tower_http::cors::CorsLayer;
 use uuid::Uuid;
 
 use crate::{recipes::Recipe, state_builder::AppState, users::User};
@@ -24,6 +25,18 @@ pub const ADDRESS: &str = "127.0.0.1:5000";
 async fn main() {
     let state = state_builder::build_state().await;
 
+    let cors = CorsLayer::new()
+        // allow `GET` and `POST` when accessing the resource
+        .allow_methods([
+            Method::GET,
+            Method::POST,
+            Method::PUT,
+            Method::DELETE,
+            Method::OPTIONS,
+        ])
+        // allow requests from any origin
+        .allow_origin(tower_http::cors::any());
+
     let app = Router::new()
         .route("/users", get(get_user))
         .route("/recipes", get(list_recipes))
@@ -31,6 +44,8 @@ async fn main() {
         .route("/recipes", post(create_recipe))
         .route("/recipes/:id", post(update_recipe))
         .route("/recipes/:id", delete(remove_recipe))
+        .layer(cors)
+        .layer(CorsLayer::permissive())
         .with_state(state);
 
     #[debug_handler]
