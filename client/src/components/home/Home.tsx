@@ -7,7 +7,7 @@ function Home() {
     <div className="App">
       
       <div className="stuff-table">
-        <EnhancedTable />
+        {/* <EnhancedTable /> */}
       </div>
     </div>
   );

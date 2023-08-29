@@ -50,6 +50,7 @@ impl RecipeManager {
     pub async fn update_recipe(&self, id: Option<Uuid>, new_recipe: &Recipe) -> Result<Uuid> {
         let updated = Recipe {
             id: self.set_id(id),
+            title: new_recipe.title.clone(),
             meal_category: new_recipe.meal_category.clone(),
             ingredients: utils::copy_vector(&new_recipe.ingredients),
             preparation_steps: utils::copy_vector(&new_recipe.preparation_steps),
@@ -59,6 +60,7 @@ impl RecipeManager {
     }
 
     pub async fn save_recipe(&self, recipe: &Recipe) -> Result<()> {
+        dbg!(&recipe);
         let field = recipe.id.to_string();
 
         let value = serde_json::to_string(&recipe)?;
@@ -86,8 +88,9 @@ impl RecipeManager {
 }
 #[derive(new, Debug, Serialize, Deserialize, Clone)]
 pub struct Recipe {
-    #[serde(skip)]
+    #[serde(default = "Uuid::new_v4")]
     pub id: Uuid,
+    pub title: String,
     pub meal_category: MealCategory,
     pub ingredients: Vec<String>,
     pub preparation_steps: Vec<String>,

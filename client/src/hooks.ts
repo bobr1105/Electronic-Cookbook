@@ -7,15 +7,15 @@ export function useRecipes() {
   const client = useContext(HttpClientContext);
   const [loading, setLoading] = useState(false);
   const [recipes, setRecipes] = useState<Recipe[]>([]);
+  const [error, setError] = useState<string | unknown>(undefined);
 
   const loadRecipes = useCallback(() => {
     client
       ?.get<Recipe[]>(`recipes`)
       .then((res) => {
-        console.log("DATA FROM HERE IS", res.data);
         setRecipes(res.data);
       })
-      .catch((e: AxiosError) => console.log(e))
+      .catch((e: AxiosError) => { setError(e.message); })
       .finally(() => setLoading(false));
   }, [client]);
 
@@ -23,5 +23,6 @@ export function useRecipes() {
     loadRecipes();
   }, [loadRecipes]);
 
-  return { recipes, loading, reload: loadRecipes };
+  return { recipes, loading, error, reload: loadRecipes };
 }
+
