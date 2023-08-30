@@ -51,6 +51,7 @@ impl RecipeManager {
         let updated = Recipe {
             id: self.set_id(id),
             title: new_recipe.title.clone(),
+            description: new_recipe.description.clone(),
             meal_category: new_recipe.meal_category.clone(),
             ingredients: utils::copy_vector(&new_recipe.ingredients),
             preparation_steps: utils::copy_vector(&new_recipe.preparation_steps),
@@ -91,6 +92,7 @@ pub struct Recipe {
     #[serde(default = "Uuid::new_v4")]
     pub id: Uuid,
     pub title: String,
+    pub description: String,
     pub meal_category: MealCategory,
     pub ingredients: Vec<String>,
     pub preparation_steps: Vec<String>,

@@ -1,9 +1,8 @@
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
-import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { Avatar, CardHeader, CardMedia, Grid, IconButton } from '@mui/material';
+import { Avatar, Button, CardHeader, CardMedia, Grid, IconButton } from '@mui/material';
 import { Recipe } from '../backendTypes';
 import { useRecipes } from '../../hooks';
 import Loading from '../../Loading';
@@ -25,12 +24,12 @@ function Recipes() {
   const item = recipes.find((r) => r.id === params.id);
 
   if (item !== undefined) {
-    return (<RecipeDetails id={item.id} />)
+    return (<RecipeDetails recipe={item} />)
   }
   return (
-    <Grid sx={{ marginLeft: "1vw" }} container spacing={4} columns={{ xs: 2, sm: 2, md: 2 }}>
+    <Grid style={{ margin: 'auto' }} container spacing={{ xs: 4, md: 4 }} columns={{ xs: 4, sm: 4, md: 10 }}>
       {recipes.map(recipe => (
-        <Grid item key={recipe.id}>
+        <Grid xs={3} item key={recipe.id}>
           <RecipeCard recipe={recipe} />
         </Grid>
       ))}
@@ -42,11 +41,11 @@ function RecipeCard(props: { recipe: Recipe }) {
 
   const { recipe } = props;
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card sx={{ minWidth: 300 }}>
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-            R
+            {recipe.title[0].toUpperCase()}
           </Avatar>
         }
         action={
@@ -55,17 +54,17 @@ function RecipeCard(props: { recipe: Recipe }) {
           </IconButton>
         }
         title={recipe.title}
-        subheader="September 14, 2016"
+        subheader={recipe.meal_category}
       />
       <CardMedia
         component="img"
         height="194"
-        image="/static/images/cards/paella.jpg"
+        image="https://www.thewholesomedish.com/wp-content/uploads/2019/02/The-Best-Classic-Shepherds-Pie-600X900.jpg"
         alt="Paella dish"
       />
       <CardContent>
         <Typography variant="body2" color="text.secondary">
-          {recipe.preparation_steps[0]}
+          {recipe.description}
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
@@ -75,6 +74,7 @@ function RecipeCard(props: { recipe: Recipe }) {
         <IconButton aria-label="share">
           <ShareIcon />
         </IconButton>
+        <Button href={`recipes/${recipe.id}`}>Read recipe</Button>
       </CardActions>
     </Card>
   );
