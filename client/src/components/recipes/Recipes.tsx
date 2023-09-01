@@ -2,7 +2,7 @@ import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
-import { Avatar, Button, CardHeader, CardMedia, Grid, IconButton } from '@mui/material';
+import { Avatar, Button, CardHeader, CardMedia, FormControl, Grid, IconButton, InputLabel, OutlinedInput, TextField, colors } from '@mui/material';
 import { Recipe } from '../backendTypes';
 import { useRecipes } from '../../hooks';
 import Loading from '../../Loading';
@@ -13,10 +13,23 @@ import { red } from '@mui/material/colors';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
+import { useEffect, useState } from 'react';
+import { Clear } from '@mui/icons-material';
 function Recipes() {
 
   const params = useParams();
   const { recipes, loading, error, reload } = useRecipes();
+  const [filteredRecipes, setFilteredRecipes] = useState<Recipe[]>(recipes);
+  const [search, setSearch] = useState("");
+
+  useEffect(() => {
+    setFilteredRecipes(
+      recipes.filter(
+        (r) =>
+          r.title.toLowerCase().includes(search)
+      )
+    );
+  }, [recipes, search])
 
   if (loading) return (<Loading />)
   if (error) return (<Error message={error as String} />)
@@ -27,13 +40,24 @@ function Recipes() {
     return (<RecipeDetails recipe={item} />)
   }
   return (
-    <Grid style={{ margin: 'auto' }} container spacing={{ xs: 4, md: 4 }} columns={{ xs: 4, sm: 4, md: 10 }}>
-      {recipes.map(recipe => (
-        <Grid xs={3} item key={recipe.id}>
-          <RecipeCard recipe={recipe} />
-        </Grid>
-      ))}
-    </Grid>
+    <>
+      <FormControl sx={{ display: "flex", alignItems: "center" }}>
+        <TextField 
+          sx={{borderRadius:"5px"}}
+          InputLabelProps={{ style: { color: "grey",outlineColor:"white" } }} 
+          InputProps={{style:{color:"white"}}} value={search}
+          onChange={e => { setSearch(e.target.value.toLowerCase()) }}
+          label="Search" id="outlined-basic" variant="outlined" />
+      </FormControl>
+      <Grid style={{ margin: 'auto', marginLeft: 70 }} container spacing={{ xs: 4, md: 4 }} columns={{ xs: 4, sm: 4, md: 10 }}>
+
+        {filteredRecipes.map(recipe => (
+          <Grid xs={3} item key={recipe.id}>
+            <RecipeCard recipe={recipe} />
+          </Grid>
+        ))}
+      </Grid>
+    </>
   );
 }
 
@@ -79,5 +103,6 @@ function RecipeCard(props: { recipe: Recipe }) {
     </Card>
   );
 }
+
 
 export default Recipes;

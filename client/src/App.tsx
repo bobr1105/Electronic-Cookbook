@@ -15,14 +15,22 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="pricing" element={<Pricing />} />
-        <Route path="recipes" element={<Recipes />}>
-          <Route path=":id" element={<Recipes />} />
-        </Route>
+        {recipeRoutes()}
         <Route path="*" element={<RouteNotFound />} />
 
       </Routes>
     </BrowserRouter>
   );
+}
+
+function recipeRoutes() {
+  return (
+    <>
+      <Route path="recipes" element={<Recipes />}>
+        <Route path=":id" element={<Recipes />} />
+      </Route>
+    </>
+  )
 }
 
 export default App;

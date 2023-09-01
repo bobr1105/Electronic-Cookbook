@@ -11,7 +11,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { Recipe } from '../backendTypes';
-import { Box, List, ListItem } from '@mui/material';
+import { Box, Divider, List, ListItem } from '@mui/material';
 
 export function RecipeDetails(props: { recipe: Recipe }) {
 
@@ -23,7 +23,7 @@ export function RecipeDetails(props: { recipe: Recipe }) {
                 <CardHeader
                     avatar={
                         <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                            D
+                            {recipe.title[0].toLocaleUpperCase()}
                         </Avatar>
                     }
                     action={
@@ -45,25 +45,20 @@ export function RecipeDetails(props: { recipe: Recipe }) {
                         {recipe.description}
                     </Typography>
                 </CardContent>
-                <CardActions disableSpacing>
-                    <IconButton aria-label="add to favorites">
-                        <FavoriteIcon />
-                    </IconButton>
-                    <IconButton aria-label="share">
-                        <ShareIcon />
-                    </IconButton>
-                </CardActions>
+
                 <CardContent>
-                    <hr></hr>
+                    <Divider sx={{ marginBottom: "1.2vw", borderBottomWidth: "1px", background: "black" }} />
                     <Typography variant="h5" paragraph>Ingredients:</Typography>
                     {recipe.ingredients.map((i) => (
                         <Typography sx={{ display: "flex", alignItems: "center" }}>
-                            <List sx={{ marginLeft: "1vw", listStyleType: "disc" }} aria-label="recipe">
-                                <ListItem key={i} sx={{ display: 'list-item' }}>{i}</ListItem>
+                            <List sx={{ marginLeft: "1.8vw", listStyleType: "disc" }} aria-label="recipe">
+                                <ListItem key={i} sx={{ display: 'list-item', height: "1vw" }}>
+                                    <span>{i}</span>
+                                </ListItem>
                             </List>
                         </Typography>
                     ))}
-                    <hr></hr>
+                    <Divider sx={{ marginTop: "2vw", marginBottom: "2vw", borderBottomWidth: "1px", background: "black" }} />
                     <Typography variant="h5" paragraph>Instructions:</Typography>
                     {recipe.preparation_steps.map((s) => (
                         <Typography sx={{ display: "flex", alignItems: "center" }}>
@@ -73,6 +68,14 @@ export function RecipeDetails(props: { recipe: Recipe }) {
                         </Typography>
                     ))}
                 </CardContent>
+                <CardActions disableSpacing>
+                    <IconButton aria-label="add to favorites">
+                        <FavoriteIcon />
+                    </IconButton>
+                    <IconButton aria-label="share">
+                        <ShareIcon />
+                    </IconButton>
+                </CardActions>
             </Card>
         </Box>
     );
