@@ -90,7 +90,7 @@ async fn main() {
         Path(id): Path<Uuid>,
     ) -> Result<StatusCode, Error> {
         state.recipes.remove_recipe(&id)?;
-
+        dbg!("This is for testing CI/CD!");
         Ok(StatusCode::OK)
     }
 
