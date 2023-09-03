@@ -50,20 +50,18 @@ export function RecipeDetails(props: { recipe: Recipe }) {
                     <Divider sx={{ marginBottom: "1.2vw", borderBottomWidth: "1px", background: "black" }} />
                     <Typography variant="h5" paragraph>Ingredients:</Typography>
                     {recipe.ingredients.map((i) => (
-                        <Typography sx={{ display: "flex", alignItems: "center" }}>
-                            <List sx={{ marginLeft: "1.8vw", listStyleType: "disc" }} aria-label="recipe">
-                                <ListItem key={i} sx={{ display: 'list-item', height: "1vw" }}>
-                                    <span>{i}</span>
-                                </ListItem>
-                            </List>
+                        <Typography key={i} component={'span'} sx={{ display: "flex", alignItems: "center" }}>
+                            <ListItem sx={{ display: 'list-item', height: "1vw" }}>
+                                <span>{i}</span>
+                            </ListItem>
                         </Typography>
                     ))}
                     <Divider sx={{ marginTop: "2vw", marginBottom: "2vw", borderBottomWidth: "1px", background: "black" }} />
                     <Typography variant="h5" paragraph>Instructions:</Typography>
                     {recipe.preparation_steps.map((s) => (
-                        <Typography sx={{ display: "flex", alignItems: "center" }}>
+                        <Typography key={s} component={'span'} sx={{ display: "flex", alignItems: "center" }}>
                             <Avatar sx={{ marginRight: "1vw", bgcolor: blue[500], height: 20, width: 20 }} aria-label="recipe">
-                                <span key={s}>{recipe.preparation_steps.indexOf(s) + 1}</span>
+                                <span>{recipe.preparation_steps.indexOf(s) + 1}</span>
                             </Avatar>{s}
                         </Typography>
                     ))}
