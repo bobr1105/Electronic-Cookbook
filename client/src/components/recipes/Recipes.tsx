@@ -2,7 +2,7 @@ import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
-import { Avatar, Button, CardHeader, CardMedia, FormControl, Grid, IconButton, InputLabel, OutlinedInput, TextField, colors } from '@mui/material';
+import { Avatar, Button, CardHeader, CardMedia, FormControl, Grid, IconButton, TextField } from '@mui/material';
 import { Recipe } from '../backendTypes';
 import { useRecipes } from '../../hooks';
 import Loading from '../../Loading';
@@ -14,7 +14,6 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import { useEffect, useState } from 'react';
-import { Clear } from '@mui/icons-material';
 function Recipes() {
 
   const params = useParams();
