@@ -14,7 +14,7 @@ import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import { useState } from "react";
 
-const pages = ["Recipes", "Pricing", "Blog"];
+const pages = ["Recipes", "Admin"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 function ResponsiveAppBar() {

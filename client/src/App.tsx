@@ -1,10 +1,10 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
-import Pricing from "./components/pricing/Pricing";
 import Home from "./components/home/Home";
 import ResponsiveAppBar from "./components/appbar/appbar";
 import Recipes from "./components/recipes/Recipes";
 import RouteNotFound from "./RouteNotFound";
+import Admin from "./components/admin/Admin";
 
 function App() {
   return (
@@ -14,8 +14,8 @@ function App() {
       </header>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="pricing" element={<Pricing />} />
         {recipeRoutes()}
+        {adminRoutes()}
         <Route path="*" element={<RouteNotFound />} />
 
       </Routes>
@@ -28,6 +28,15 @@ function recipeRoutes() {
     <>
       <Route path="recipes" element={<Recipes />}>
         <Route path=":id" element={<Recipes />} />
+      </Route>
+    </>
+  )
+}
+
+function adminRoutes() {
+  return (
+    <>
+      <Route path="admin" element={<Admin />}>
       </Route>
     </>
   )

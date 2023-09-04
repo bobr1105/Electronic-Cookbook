@@ -49,23 +49,17 @@ function Recipes() {
             }
           }}
           InputLabelProps={{ style: { color: "grey", outlineColor: "white" } }}
-          InputProps={{ style: { borderColor: "grey", color: "white",width:"250px" } }} value={search}
+          InputProps={{ style: { borderColor: "grey", color: "white", width: "250px" } }} value={search}
           onChange={e => { setSearch(e.target.value.toLowerCase()) }}
           label="Search" id="outlined-basic" variant="outlined" />
       </FormControl>
-      <Grid style={{ margin: 'auto', marginLeft: 70 }} container spacing={{ xs: 4, md: 4 }} columns={{ xs: 4, sm: 4, md: 10 }}>
+      <RecipesGrid recipes={filteredRecipes} />
 
-        {filteredRecipes.map(recipe => (
-          <Grid xs={3} item key={recipe.id}>
-            <RecipeCard recipe={recipe} />
-          </Grid>
-        ))}
-      </Grid>
     </>
   );
 }
 
-function RecipeCard(props: { recipe: Recipe }) {
+export function RecipeCard(props: { recipe: Recipe }) {
 
   const { recipe } = props;
   return (
@@ -108,5 +102,19 @@ function RecipeCard(props: { recipe: Recipe }) {
   );
 }
 
+export function RecipesGrid(props: { recipes: Recipe[] }) {
+  const { recipes } = props;
+
+  return (
+    <Grid style={{ margin: 'auto', marginLeft: 70 }} container spacing={{ xs: 4, md: 4 }} columns={{ xs: 4, sm: 4, md: 10 }}>
+
+      {recipes.map(recipe => (
+        <Grid xs={3} item key={recipe.id}>
+          <RecipeCard recipe={recipe} />
+        </Grid>
+      ))}
+    </Grid>
+  );
+}
 
 export default Recipes;
