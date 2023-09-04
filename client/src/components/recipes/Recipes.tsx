@@ -17,7 +17,7 @@ import { useEffect, useState } from 'react';
 function Recipes() {
 
   const params = useParams();
-  const { recipes, loading, error, reload } = useRecipes();
+  const { recipes, loading, error } = useRecipes();
   const [filteredRecipes, setFilteredRecipes] = useState<Recipe[]>(recipes);
   const [search, setSearch] = useState("");
 
@@ -41,10 +41,15 @@ function Recipes() {
   return (
     <>
       <FormControl sx={{ display: "flex", alignItems: "center" }}>
-        <TextField 
-          sx={{borderRadius:"5px"}}
-          InputLabelProps={{ style: { color: "grey",outlineColor:"white" } }} 
-          InputProps={{style:{color:"white"}}} value={search}
+        <TextField
+          sx={{
+            'fieldset': {
+              border: '1px solid grey!important',
+              borderRadius: "5px",
+            }
+          }}
+          InputLabelProps={{ style: { color: "grey", outlineColor: "white" } }}
+          InputProps={{ style: { borderColor: "grey", color: "white",width:"250px" } }} value={search}
           onChange={e => { setSearch(e.target.value.toLowerCase()) }}
           label="Search" id="outlined-basic" variant="outlined" />
       </FormControl>
@@ -81,8 +86,8 @@ function RecipeCard(props: { recipe: Recipe }) {
       />
       <CardMedia
         component="img"
-        height="194"
-        image="https://www.thewholesomedish.com/wp-content/uploads/2019/02/The-Best-Classic-Shepherds-Pie-600X900.jpg"
+        height="254"
+        image="https://images.ctfassets.net/qu53tdnhexvd/10E8Q6B9myA2Q8Gw0Qm8yg/d4c94b4daca9ad989faea563a7b64ddd/Halloumi_curry.jpg?w=1920&h=1080"
         alt="Paella dish"
       />
       <CardContent>

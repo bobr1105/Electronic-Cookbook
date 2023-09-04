@@ -37,7 +37,7 @@ export function RecipeDetails(props: { recipe: Recipe }) {
                 <CardMedia
                     component="img"
                     height="194"
-                    image="https://www.thewholesomedish.com/wp-content/uploads/2019/02/The-Best-Classic-Shepherds-Pie-600X900.jpg"
+                    image="https://images.ctfassets.net/qu53tdnhexvd/10E8Q6B9myA2Q8Gw0Qm8yg/d4c94b4daca9ad989faea563a7b64ddd/Halloumi_curry.jpg?w=1920&h=1080"
                     alt="Paella dish"
                 />
                 <CardContent>
@@ -51,9 +51,11 @@ export function RecipeDetails(props: { recipe: Recipe }) {
                     <Typography variant="h5" paragraph>Ingredients:</Typography>
                     {recipe.ingredients.map((i) => (
                         <Typography key={i} component={'span'} sx={{ display: "flex", alignItems: "center" }}>
-                            <ListItem sx={{ display: 'list-item', height: "1vw" }}>
-                                <span>{i}</span>
-                            </ListItem>
+                            <List sx={{ marginLeft: "1.8vw", listStyleType: "disc" }} aria-label="recipe">
+                                <ListItem key={i} sx={{ display: 'list-item', height: "1vw" }}>
+                                    <span>{i}</span>
+                                </ListItem>
+                            </List>
                         </Typography>
                     ))}
                     <Divider sx={{ marginTop: "2vw", marginBottom: "2vw", borderBottomWidth: "1px", background: "black" }} />
