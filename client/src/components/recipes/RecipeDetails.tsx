@@ -12,15 +12,28 @@ import ShareIcon from '@mui/icons-material/Share';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { Recipe } from '../backendTypes';
 import { Box, Button, Divider, List, ListItem } from '@mui/material';
+import RecipeDialog from './RecipeDialog';
+import { useState } from 'react';
 
 export function RecipeDetails(props: { recipe: Recipe }) {
 
 
     const { recipe } = props;
+    const [open, setOpen] = useState(false);
+
+    const handleOpen = () => {
+        setOpen(true);
+    }
+
+    const handleClose = () => {
+        setOpen(false);
+    }
     return (
         <>
+            <RecipeDialog recipe={recipe} open={open} close={handleClose} />
+
             <Box sx={{ display: "flex", justifyContent: "center" }}>
-                <Button sx={{ border: "1px solid orange", color: "orange", padding: "10px",marginRight:"10px" }}>Edit recipe</Button>
+                <Button onClick={handleOpen} sx={{ border: "1px solid orange", color: "orange", padding: "10px", marginRight: "10px" }}>Edit recipe</Button>
                 <Button sx={{ border: "1px solid red", color: "red", padding: "10px" }}>Remove recipe</Button>
             </Box>
             <Box sx={{ display: "flex", justifyContent: "space-around", marginTop: "3vw" }}>
