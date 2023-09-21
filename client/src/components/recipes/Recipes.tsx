@@ -17,7 +17,7 @@ import { useEffect, useState } from 'react';
 function Recipes() {
 
   const params = useParams();
-  const { recipes, loading, error } = useRecipes();
+  const { recipes, loading, error, reload } = useRecipes();
   const [filteredRecipes, setFilteredRecipes] = useState<Recipe[]>(recipes);
   const [search, setSearch] = useState("");
 
@@ -36,7 +36,7 @@ function Recipes() {
   const item = recipes.find((r) => r.id === params.id);
 
   if (item !== undefined) {
-    return (<RecipeDetails recipe={item} />)
+    return (<RecipeDetails callback={reload} recipe={item} />)
   }
   return (
     <>

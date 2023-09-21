@@ -15,10 +15,10 @@ import { Box, Button, Divider, List, ListItem } from '@mui/material';
 import RecipeDialog from './RecipeDialog';
 import { useState } from 'react';
 
-export function RecipeDetails(props: { recipe: Recipe }) {
+export function RecipeDetails(props: { recipe: Recipe, callback: () => void }) {
 
 
-    const { recipe } = props;
+    const { recipe, callback } = props;
     const [open, setOpen] = useState(false);
 
     const handleOpen = () => {
@@ -30,7 +30,7 @@ export function RecipeDetails(props: { recipe: Recipe }) {
     }
     return (
         <>
-            <RecipeDialog recipe={recipe} open={open} close={handleClose} />
+            <RecipeDialog callback={callback} recipe={recipe} open={open} close={handleClose} />
 
             <Box sx={{ display: "flex", justifyContent: "center" }}>
                 <Button onClick={handleOpen} sx={{ border: "1px solid orange", color: "orange", padding: "10px", marginRight: "10px" }}>Edit recipe</Button>

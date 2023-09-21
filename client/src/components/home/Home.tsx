@@ -1,4 +1,3 @@
-import EnhancedTable from "../table/table";
 import "./Home.css";
 
 function Home() {
@@ -6,9 +5,7 @@ function Home() {
     
     <div className="App">
       
-      <div className="stuff-table">
-        {/* <EnhancedTable /> */}
-      </div>
+      
     </div>
   );
 }

@@ -72,6 +72,8 @@ async fn main() {
         State(state): State<Arc<AppState>>,
         Json(body): Json<Recipe>,
     ) -> Result<Json<Uuid>, Error> {
+
+        dbg!("Hello from create_recipe");
         let recipe_id = state.recipes.update_recipe(None, &body).await?;
         Ok(Json(recipe_id))
     }

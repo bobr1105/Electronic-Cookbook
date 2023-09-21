@@ -3,23 +3,23 @@ import { Box, Button, TextField, IconButton } from "@mui/material";
 import { useFormikContext, FieldMetaProps, FieldArray, Field, FieldInputProps, FieldArrayRenderProps } from "formik";
 import { Recipe } from "../backendTypes";
 
-function Ingredients(props: { loading: boolean }) {
+function PreparationSteps(props: { loading: boolean }) {
     const loading = props.loading;
 
     const { values, getFieldMeta, handleChange } = useFormikContext<Recipe>();
     const meta: FieldMetaProps<string>[] = [];
 
-    if (values.ingredients === undefined) meta.push("ingredients" as unknown as FieldMetaProps<string>);
+    if (values.preparation_steps === undefined) meta.push("step" as unknown as FieldMetaProps<string>);
     else {
-        for (let i = 0; i < values.ingredients.length; i++) {
-            const metaStep = `ingredients[${i}]`;
+        for (let i = 0; i < values.preparation_steps.length; i++) {
+            const metaStep = `preparation_steps[${i}]`;
             meta.push(getFieldMeta(`${metaStep}`));
         }
     }
 
     return (
         <FieldArray
-            name="ingredients"
+            name="preparation_steps"
             render={(arrayHelpers: FieldArrayRenderProps) => (
                 <>
                     <Box sx={{ marginTop: "20px", display: "flex", justifyContent: "space-between" }}>
@@ -28,11 +28,11 @@ function Ingredients(props: { loading: boolean }) {
                             disabled={loading}
                             color="secondary"
                         >
-                            Add ingredient
+                            Add step
                         </Button>
                     </Box>
                     <Box sx={{ display: "flex", flexDirection: "column", gap: 4 }}>
-                        {values.ingredients?.map((ingredient, i) => (
+                        {values.preparation_steps?.map((step, i) => (
                             <Box
                                 key={i}
                                 sx={{ display: "flex", alignItems: "center", gap: 2 }}
@@ -46,10 +46,10 @@ function Ingredients(props: { loading: boolean }) {
                                         alignItems: "baseline",
                                     }}
                                 >
-                                    <Field name={`ingredients[${i}]`} onChange={handleChange}>
+                                    <Field name={`preparation_steps[${i}]`} onChange={handleChange}>
                                         {({ field }: { field: FieldInputProps<unknown> }) => (
                                             <TextField
-                                                label="Name"
+                                                label="Step"
                                                 error={
                                                     meta[i].touched &&
                                                     Boolean(meta[i].error)
@@ -84,4 +84,4 @@ function Ingredients(props: { loading: boolean }) {
     );
 }
 
-export default Ingredients;
+export default PreparationSteps;

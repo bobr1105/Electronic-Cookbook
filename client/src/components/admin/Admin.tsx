@@ -7,7 +7,7 @@ import RecipeDialog from "../recipes/RecipeDialog";
 import { useState } from "react";
 
 export function Admin() {
-    const { recipes, loading, error } = useRecipes();
+    const { recipes, loading, error, reload } = useRecipes();
     const [open, setOpen] = useState(false);
 
     if (loading) return (<Loading />)
@@ -23,7 +23,7 @@ export function Admin() {
     return (
         <Box>
             <Button onClick={handleOpen} sx={{ color: "orange", border: "1px solid orange", minWidth: "150px", padding: "10px", marginLeft: "46vw" }}>Add recipe</Button>
-            <RecipeDialog open={open} close={handleClose} />
+            <RecipeDialog callback={reload} open={open} close={handleClose} />
             <RecipesGrid recipes={recipes} />
         </Box>
     )
