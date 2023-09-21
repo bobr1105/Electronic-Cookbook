@@ -3,6 +3,7 @@ import { MealCategory, Recipe } from "../backendTypes";
 import { ObjectShape } from "yup";
 import { Dialog, DialogTitle, DialogContent, TextField, DialogActions, Button, Select, MenuItem, SelectChangeEvent } from "@mui/material";
 import { Field, FieldInputProps, Form, Formik } from "formik";
+import Ingredients from "./Ingredients";
 
 export function RecipeDialog(props: { recipe?: Recipe, open: boolean, close: () => void }) {
 
@@ -13,6 +14,7 @@ export function RecipeDialog(props: { recipe?: Recipe, open: boolean, close: () 
         title: Yup.string(),
         description: Yup.string(),
         meal_category: Yup.string().oneOf(["Breakfast", "Lunch", "Dinner"]).required(),
+        ingredients: Yup.array().of(Yup.string()),
     };
 
     const schema = Yup.object().shape(shape);
@@ -32,7 +34,6 @@ export function RecipeDialog(props: { recipe?: Recipe, open: boolean, close: () 
                     initialValues={
                         recipe !== undefined ? recipe as Recipe :
                             ({
-                                id: "",
                                 title: "",
                                 description: "",
                                 meal_category: MealCategory.Breakfast
@@ -41,7 +42,7 @@ export function RecipeDialog(props: { recipe?: Recipe, open: boolean, close: () 
                     onSubmit={handleSubmit}
                     validationSchema={schema}
                 >
-                    {({ getFieldMeta, values, handleSubmit, setFieldValue }) => {
+                    {({ getFieldMeta, values, handleSubmit, setFieldValue, setFieldTouched }) => {
                         return (
                             <Form>
                                 <Field name="title">
@@ -91,6 +92,7 @@ export function RecipeDialog(props: { recipe?: Recipe, open: boolean, close: () 
                                 <Field name="meal_category">
                                     {({ field }: { field: FieldInputProps<unknown> }) => {
                                         const meta = getFieldMeta("meal_category");
+                                        console.log(meta)
                                         return (
                                             <Select
                                                 autoFocus
@@ -116,6 +118,9 @@ export function RecipeDialog(props: { recipe?: Recipe, open: boolean, close: () 
                                         );
                                     }}
                                 </Field>
+
+                                <Ingredients loading={false}></Ingredients>
+
                                 <DialogActions>
                                     <Button type="submit">Submit</Button>
 
