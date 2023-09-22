@@ -1,20 +1,22 @@
 import * as Yup from "yup";
 import { MealCategory, Recipe } from "../backendTypes";
 import { ObjectShape } from "yup";
-import { Dialog, DialogTitle, DialogContent, TextField, DialogActions, Button, Select, MenuItem, SelectChangeEvent, Box } from "@mui/material";
+import { Dialog, DialogTitle, DialogContent, TextField, DialogActions, Button, Select, MenuItem, SelectChangeEvent, Box, Avatar, IconButton } from "@mui/material";
 import { Field, FieldInputProps, Form, Formik } from "formik";
 import Ingredients from "./Ingredients";
-import { useContext, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { HttpClientContext } from "../../client";
 import { AxiosError } from "axios";
 import PreparationSteps from "./PreparationSteps";
 import Morselbar from "../Morselbar";
+import { Clear } from "@mui/icons-material";
 
 export function RecipeDialog(props: { recipe?: Recipe, callback: () => void }) {
 
     const { recipe, callback } = props;
     const shape: ObjectShape = {
         id: Yup.string().uuid(),
+        image: Yup.string(),
         title: Yup.string().required(),
         description: Yup.string().required(),
         meal_category: Yup.string().oneOf(["Breakfast", "Lunch", "Dinner"]).required(),
@@ -24,6 +26,7 @@ export function RecipeDialog(props: { recipe?: Recipe, callback: () => void }) {
 
     const schema = Yup.object().shape(shape);
     const dialogTitle = recipe !== undefined ? "Edit recipe" : "Add new recipe";
+    const avatarInputRef = useRef<HTMLInputElement>(null);
 
     const [loading, setLoading] = useState(false);
     const [open, setOpen] = useState(false);
@@ -81,6 +84,41 @@ export function RecipeDialog(props: { recipe?: Recipe, callback: () => void }) {
                         {({ getFieldMeta, values, handleSubmit, setFieldValue, setFieldTouched }) => {
                             return (
                                 <Form>
+
+                                    <Avatar
+                                        alt={values.image}
+                                        src={values.image}
+                                    />
+                                    <Box sx={{ display: "flex", alignItems: "center" }}>
+                                        <input
+                                            disabled={loading}
+                                            ref={avatarInputRef}
+                                            type="file"
+                                            onChange={(e) => {
+                                                const reader = new FileReader();
+                                                const file = e.target.files?.[0];
+
+                                                if (file) {
+                                                    reader.onload = () =>
+                                                        setFieldValue("image", reader.result);
+                                                    reader.readAsDataURL(file);
+                                                } else {
+                                                    setFieldValue("image", "");
+                                                }
+                                            }}
+                                        />
+                                        <IconButton
+                                            size="small"
+                                            onClick={() => {
+                                                setFieldValue("image", "");
+                                                if (avatarInputRef.current) {
+                                                    avatarInputRef.current.value = "";
+                                                }
+                                            }}
+                                        >
+                                            <Clear fontSize="small" />
+                                        </IconButton>
+                                    </Box>
                                     <Field name="title">
                                         {({ field }: { field: FieldInputProps<unknown> }) => {
                                             const meta = getFieldMeta("title");

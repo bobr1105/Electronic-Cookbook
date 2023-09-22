@@ -80,6 +80,7 @@ impl RecipeManager {
 pub struct Recipe {
     #[serde(default = "Uuid::new_v4")]
     pub id: Uuid,
+    pub image: String,
     pub title: String,
     pub description: String,
     pub meal_category: MealCategory,
