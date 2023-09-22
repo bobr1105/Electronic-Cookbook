@@ -5,10 +5,7 @@ use derive_new::new;
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
-use crate::{
-    clients::utils::{self},
-    redis::RedisRepo,
-};
+use crate::redis::RedisRepo;
 
 pub const PREFIX: &str = "recipe";
 
@@ -47,17 +44,9 @@ impl RecipeManager {
         Ok(recipe)
     }
 
-    pub async fn update_recipe(&self, id: Option<Uuid>, new_recipe: &Recipe) -> Result<Uuid> {
-        let updated = Recipe {
-            id: self.set_id(id),
-            title: new_recipe.title.clone(),
-            description: new_recipe.description.clone(),
-            meal_category: new_recipe.meal_category.clone(),
-            ingredients: utils::copy_vector(&new_recipe.ingredients),
-            preparation_steps: utils::copy_vector(&new_recipe.preparation_steps),
-        };
-        self.save_recipe(&updated).await?;
-        Ok(updated.id)
+    pub async fn set_recipe(&self, recipe: &Recipe) -> Result<Uuid> {
+        self.save_recipe(&recipe).await?;
+        Ok(recipe.id)
     }
 
     pub async fn save_recipe(&self, recipe: &Recipe) -> Result<()> {

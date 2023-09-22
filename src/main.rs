@@ -41,8 +41,7 @@ async fn main() {
         .route("/users", get(get_user))
         .route("/recipes", get(list_recipes))
         .route("/recipes/:id", get(get_recipe))
-        .route("/recipes", post(create_recipe))
-        .route("/recipes/:id", post(update_recipe))
+        .route("/recipes", post(set_recipe))
         .route("/recipes/:id", delete(remove_recipe))
         .layer(cors)
         .layer(CorsLayer::permissive())
@@ -68,22 +67,11 @@ async fn main() {
         Ok(Json(recipe))
     }
 
-    async fn create_recipe(
+    async fn set_recipe(
         State(state): State<Arc<AppState>>,
-        Json(body): Json<Recipe>,
+        Json(recipe): Json<Recipe>,
     ) -> Result<Json<Uuid>, Error> {
-
-        dbg!("Hello from create_recipe");
-        let recipe_id = state.recipes.update_recipe(None, &body).await?;
-        Ok(Json(recipe_id))
-    }
-
-    async fn update_recipe(
-        State(state): State<Arc<AppState>>,
-        Path(id): Path<Uuid>,
-        Json(new_recipe): Json<Recipe>,
-    ) -> Result<Json<Uuid>, Error> {
-        let updated_recipe = state.recipes.update_recipe(Some(id), &new_recipe).await?;
+        let updated_recipe = state.recipes.set_recipe(&recipe).await?;
         Ok(Json(updated_recipe))
     }
 
